@@ -49,7 +49,7 @@ function Heros() {
         {isChatOpen && (
           <div
             style={{
-              backgroundColor: "#fff",
+              backgroundColor: "#ddd",
               borderRadius: "8px",
               boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
               padding: "10px",
@@ -60,12 +60,13 @@ function Heros() {
               width: "200px",
             }}
           >
-            <p style={{ margin: 0 }}>Chat with:</p>
+            <p style={{ margin: 0, color: "black" }}>Chat with:</p>
             <a href="https://wa.me/2347039426515?text=Hi%20I%20need%20assistance" target="_blank" rel="noopener noreferrer">
               <button style={{ backgroundColor: "#25D366", color: "white", padding: "10px", borderRadius: "5px", margin: "5px" }}>
-                Tayexy
+                Tayexy 
               </button>
             </a>
+            or
             <a href="https://wa.me/2347011886514?text=Hi%20I%20need%20help%20with%20your%20services" target="_blank" rel="noopener noreferrer">
               <button style={{ backgroundColor: "#25D366", color: "white", padding: "10px", borderRadius: "5px", margin: "5px" }}>
                 Lee
