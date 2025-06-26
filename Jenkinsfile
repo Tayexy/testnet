@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   tools {
-    nodejs 'NodeJS18' // ✅ Correct name — no space
+    nodejs 'NodeJS18' // ✅ Matches Global Tool name
   }
 
   environment {
@@ -11,12 +11,6 @@ pipeline {
   }
 
   stages {
-    stage('Checkout') {
-      steps {
-        git 'https://github.com/Tayexy/testnet.git'
-      }
-    }
-
     stage('Install Dependencies') {
       steps {
         sh 'npm install'
