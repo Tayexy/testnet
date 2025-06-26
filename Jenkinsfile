@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   tools {
-    nodejs 'NodeJS18' // ✅ Matches Global Tool name
+    nodejs 'NodeJS18' // ✅ Matches Global Tool Configuration
   }
 
   environment {
@@ -13,25 +13,25 @@ pipeline {
   stages {
     stage('Install Dependencies') {
       steps {
-        sh 'npm install'
+        bat 'npm install'
       }
     }
 
     stage('Build') {
       steps {
-        sh 'npm run build'
+        bat 'npm run build'
       }
     }
 
     stage('SonarQube Analysis') {
       steps {
         withSonarQubeEnv('My SonarQube Server') {
-          sh """
-            ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
-              -Dsonar.projectKey=testnet \
-              -Dsonar.sources=. \
-              -Dsonar.host.url=$SONARQUBE_URL \
-              -Dsonar.login=$SONAR_TOKEN
+          bat """
+            ${SONAR_SCANNER_HOME}\\bin\\sonar-scanner.bat ^
+              -Dsonar.projectKey=testnet ^
+              -Dsonar.sources=. ^
+              -Dsonar.host.url=%SONARQUBE_URL% ^
+              -Dsonar.login=%SONAR_TOKEN%
           """
         }
       }
