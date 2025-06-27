@@ -11,14 +11,43 @@ pipeline {
   }
 
   stages {
+
+    stage('Cleanup') {
+      steps {
+        echo 'Cleaning workspace and old node_modules...'
+        bat 'rmdir /s /q node_modules'
+        bat 'rmdir /s /q build' // If build folder exists
+      }
+    }
+
+    stage('Configure NPM') {
+      steps {
+        echo 'Configuring npm registry and proxy (if needed)...'
+        bat 'npm config set registry https://registry.npmjs.org/'
+
+        // If behind a proxy, uncomment and update the following:
+        // bat 'npm config set proxy http://your.proxy.address:port'
+        // bat 'npm config set https-proxy http://your.proxy.address:port'
+
+        // Optional: verify applied settings
+        bat 'npm config list'
+      }
+    }
+
     stage('Install Dependencies') {
       steps {
-        bat 'npm install'
+        echo 'Installing dependencies with --no-cache and retry logic...'
+        script {
+          retry(2) { // Retry up to 2 times on failure
+            bat 'npm install --no-cache'
+          }
+        }
       }
     }
 
     stage('Build') {
       steps {
+        echo 'Running build script...'
         bat 'npm run build'
       }
     }
