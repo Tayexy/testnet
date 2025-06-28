@@ -49,6 +49,12 @@ app.post("/notify-telegram", async (req, res) => {
 
 // Set the port to 3000
 const PORT = 3001;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
+  });
+} else {
+  module.exports = app;
+}
+
+
