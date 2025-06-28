@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment {
+        // Git download tuning
         GIT_TRACE_PACKET = '1'
         GIT_TRACE = '1'
         GIT_CURL_VERBOSE = '1'
@@ -11,13 +12,13 @@ pipeline {
     }
 
     options {
-        timeout(time: 20, unit: 'MINUTES') // Prevents hanging
+        timeout(time: 20, unit: 'MINUTES') // Prevent pipeline from hanging forever
     }
 
     stages {
         stage('Clone') {
             steps {
-                echo "Configuring Git and shallow cloning repository"
+                echo "🔄 Cloning repository (shallow)..."
                 bat 'git config --global http.postBuffer 524288000'
                 checkout([$class: 'GitSCM',
                     branches: [[name: '*/main']],
@@ -29,7 +30,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo "Building stage"
+                echo "⚙️ Running npm install..."
                 bat 'node -v'
                 bat 'npm install'
             }
@@ -37,31 +38,30 @@ pipeline {
 
         stage('Test') {
             steps {
-                echo "Testing stage"
+                echo "🧪 Running test suite..."
                 bat 'npm test'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo "Deploying..."
-                // Add deploy logic here
+                echo "🚀 Deploy stage - add deployment logic here."
             }
         }
     }
 
     post {
         always {
-            echo "Pipeline concluded."
+            echo "✅ Pipeline concluded."
         }
 
         success {
-            echo "All stages executed with success."
-            bat 'start npm start' // Non-blocking
+            echo "🎉 Build and tests successful."
+            bat 'start npm start' // Non-blocking start
         }
 
         failure {
-            echo "Pipeline failed. Check logs for errors."
+            echo "❌ Pipeline failed. Check error logs above."
         }
     }
 }
